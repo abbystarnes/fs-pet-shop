@@ -33,22 +33,20 @@ const server = http.createServer(function(req, res) {
   if (req.url.match(petRegExp)) {
     id = req.url.match(petRegExp);
     id = parseInt(id[1]);
-    console.log(id);
   }
 
   // CHOOSE route
   if (req.method === 'GET' && req.url === '/pets') {
-    res.setHeader('Content-Type', 'text/html');
+    res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(myData));
   } else if (id !== -1 && id < myData.length) {
     let data = myData;
     let myItem = data[id];
-    let myItemString = JSON.stringify(myItem);
-    res.setHeader('Content-Type', 'text/html');
-    res.end(myItemString);
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(myItem));
   } else {
-    console.log('error');
-    res.end('error');
+    res.statusCode = 404;
+    res.end('Not Found');
   }
 
 });
