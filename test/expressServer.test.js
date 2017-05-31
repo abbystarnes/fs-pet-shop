@@ -1,4 +1,4 @@
-'use strict';
+
 
 const mockFS = require('mock-fs');
 const request = require('supertest');
@@ -13,15 +13,15 @@ describe('pets expressServer', () => {
     const petsArr = [{
       age: 7,
       kind: 'rainbow',
-      name: 'fido'
+      name: 'fido',
     }, {
       age: 5,
       kind: 'snake',
-      name: 'Buttons'
+      name: 'Buttons',
     }];
 
     mockFS({
-      'pets.json': JSON.stringify(petsArr)
+      'pets.json': JSON.stringify(petsArr),
     });
   });
 
@@ -38,11 +38,11 @@ describe('pets expressServer', () => {
         .expect(200, [{
           age: 7,
           kind: 'rainbow',
-          name: 'fido'
+          name: 'fido',
         }, {
           age: 5,
           kind: 'snake',
-          name: 'Buttons'
+          name: 'Buttons',
         }], done);
     });
   });
@@ -56,7 +56,7 @@ describe('pets expressServer', () => {
         .expect(200, {
           age: 7,
           kind: 'rainbow',
-          name: 'fido'
+          name: 'fido',
         }, done);
     });
 
@@ -68,7 +68,7 @@ describe('pets expressServer', () => {
         .expect(200, {
           age: 5,
           kind: 'snake',
-          name: 'Buttons'
+          name: 'Buttons',
         }, done);
     });
 

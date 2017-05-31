@@ -1,14 +1,14 @@
-'use strict';
+
 
 const { assert } = require('chai');
 const fs = require('fs');
 const { exec } = require('child_process');
 
-const copyFile = function(source, target, cb) {
+const copyFile = function (source, target, cb) {
   let cbCalled = false;
   const rd = fs.createReadStream(source);
   const wr = fs.createWriteStream(target);
-  const done = function(err) {
+  const done = function (err) {
     if (!cbCalled) {
       cb(err);
       cbCalled = true;
@@ -40,11 +40,11 @@ describe('pets commandline tool bonus', () => {
       const petsArr = [{
         age: 7,
         kind: 'rainbow',
-        name: 'fido'
+        name: 'fido',
       }, {
         age: 4,
         kind: 'duck',
-        name: 'Bob'
+        name: 'Bob',
       }];
 
       fs.writeFile('pets.json', JSON.stringify(petsArr), done);
@@ -119,8 +119,8 @@ describe('pets commandline tool bonus', () => {
     });
 
     it('successfully updates a pet', (done) => {
-      const check = function(callback) {
-        return function(err, stdout, _stderr) {
+      const check = function (callback) {
+        return function (err, stdout, _stderr) {
           if (err) {
             assert.fail('Command produced a nonzero status code',
               'Command should produce a zero status code');
@@ -128,7 +128,7 @@ describe('pets commandline tool bonus', () => {
 
           const msgs = [
             '{ age: 9, kind: \'cat\', name: \'Rosey\' }',
-            ''
+            '',
           ];
 
           assert.deepEqual(stdout.split(/\r?\n/), msgs);
@@ -158,8 +158,8 @@ describe('pets commandline tool bonus', () => {
     });
 
     it('successfully destroys a pet', (done) => {
-      const check = function(msgs, callback) {
-        return function(err, stdout, _stderr) {
+      const check = function (msgs, callback) {
+        return function (err, stdout, _stderr) {
           if (err) {
             assert.fail('Command produced a nonzero status code',
               'Command should produce a zero status code');
@@ -172,11 +172,11 @@ describe('pets commandline tool bonus', () => {
 
       exec('node pets.js destroy 1', check([
         '{ age: 4, kind: \'duck\', name: \'Bob\' }',
-        ''
+        '',
       ], () => {
         exec('node pets.js read', check([
           '[ { age: 7, kind: \'rainbow\', name: \'fido\' } ]',
-          ''
+          '',
         ], done));
       }));
     });
@@ -193,7 +193,7 @@ describe('pets commandline tool bonus', () => {
         const msgs = [
           '[ { age: 7, kind: \'rainbow\', name: \'fido\' },',
           '  { age: 4, kind: \'duck\', name: \'Bob\' } ]',
-          ''
+          '',
         ];
 
         assert.deepEqual(stdout.split(/\r?\n/), msgs);
@@ -210,7 +210,7 @@ describe('pets commandline tool bonus', () => {
 
         const msgs = [
           '{ age: 7, kind: \'rainbow\', name: \'fido\' }',
-          ''
+          '',
         ];
 
         assert.deepEqual(stdout.split(/\r?\n/), msgs);
@@ -227,7 +227,7 @@ describe('pets commandline tool bonus', () => {
 
         const msgs = [
           '{ age: 4, kind: \'duck\', name: \'Bob\' }',
-          ''
+          '',
         ];
 
         assert.deepEqual(stdout.split(/\r?\n/), msgs);

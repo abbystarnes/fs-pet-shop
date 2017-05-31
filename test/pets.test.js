@@ -1,14 +1,14 @@
-'use strict';
+
 
 const { assert } = require('chai');
 const fs = require('fs');
 const { exec } = require('child_process');
 
-const copyFile = function(source, target, cb) {
+const copyFile = function (source, target, cb) {
   let cbCalled = false;
   const rd = fs.createReadStream(source);
   const wr = fs.createWriteStream(target);
-  const done = function(err) {
+  const done = function (err) {
     if (!cbCalled) {
       cb(err);
       cbCalled = true;
@@ -40,11 +40,11 @@ describe('pets commandline tool', () => {
       const petsArr = [{
         age: 7,
         kind: 'rainbow',
-        name: 'fido'
+        name: 'fido',
       }, {
         age: 4,
         kind: 'duck',
-        name: 'Bob'
+        name: 'Bob',
       }];
 
       fs.writeFile('pets.json', JSON.stringify(petsArr), done);
@@ -88,7 +88,7 @@ describe('pets commandline tool', () => {
         const msgs = [
           '[ { age: 7, kind: \'rainbow\', name: \'fido\' },',
           '  { age: 4, kind: \'duck\', name: \'Bob\' } ]',
-          ''
+          '',
         ];
 
         assert.deepEqual(stdout.split(/\r?\n/), msgs);
@@ -105,7 +105,7 @@ describe('pets commandline tool', () => {
 
         const msgs = [
           '{ age: 7, kind: \'rainbow\', name: \'fido\' }',
-          ''
+          '',
         ];
 
         assert.deepEqual(stdout.split(/\r?\n/), msgs);
@@ -122,7 +122,7 @@ describe('pets commandline tool', () => {
 
         const msgs = [
           '{ age: 4, kind: \'duck\', name: \'Bob\' }',
-          ''
+          '',
         ];
 
         assert.deepEqual(stdout.split(/\r?\n/), msgs);
@@ -175,8 +175,8 @@ describe('pets commandline tool', () => {
     });
 
     it('successfully create a pet', (done) => {
-      const check = function(callback) {
-        return function(err, stdout, _stderr) {
+      const check = function (callback) {
+        return function (err, stdout, _stderr) {
           if (err) {
             assert.fail('Command produced a nonzero status code',
               'Command should produce a zero status code');
@@ -184,7 +184,7 @@ describe('pets commandline tool', () => {
 
           const msgs = [
             '{ age: 3, kind: \'parakeet\', name: \'Cornflake\' }',
-            ''
+            '',
           ];
 
           assert.deepEqual(stdout.split(/\r?\n/), msgs);
