@@ -29,16 +29,12 @@ const server = http.createServer(function(req, res) {
   let myData = fs.readFileSync(pets, 'utf8');
   myData = JSON.parse(myData);
 
-  if (req.url.match(petRegExp)) {
-    let id = req.url.match(petRegExp);
-    id = parseInt(id[1]);
-  }
   let id = -1;
-  id = req.url.match(petRegExp);
-  if (id !== -1) {
+  if (req.url.match(petRegExp)) {
+    id = req.url.match(petRegExp);
     id = parseInt(id[1]);
+    console.log(id);
   }
-  console.log(id);
 
   // CHOOSE route
   if (req.method === 'GET' && req.url === '/pets') {
