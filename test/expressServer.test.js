@@ -1,5 +1,3 @@
-
-
 const mockFS = require('mock-fs');
 const request = require('supertest');
 
@@ -77,7 +75,7 @@ describe('pets expressServer', () => {
         .get('/pets/2')
         .expect('Content-Type', /text\/plain/)
         .expect('Content-Type', /text\/plain/)
-.expect(404, 'Not Found', done);
+        .expect(404, 'Not Found', done);
     });
 
     it('shouldn\'t return a pet at index -1', (done) => {
@@ -85,7 +83,7 @@ describe('pets expressServer', () => {
         .get('/pets/-1')
         .expect('Content-Type', /text\/plain/)
         .expect('Content-Type', /text\/plain/)
-.expect(404, 'Not Found', done);
+        .expect(404, 'Not Found', done);
     });
   });
 });

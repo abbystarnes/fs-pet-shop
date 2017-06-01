@@ -1,5 +1,3 @@
-
-
 const request = require('supertest');
 const mockFS = require('mock-fs');
 

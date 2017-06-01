@@ -1,3 +1,4 @@
+'use strict';
 const routes = require("route");
 const express = require("express");
 const app = express();
@@ -8,7 +9,6 @@ const port = process.env.PORT || 3000;
 const petsFile = path.join(__dirname, 'pets.json');
 const bodyParser = require('body-parser');
 
-'use strict';
 
 let pets = undefined;
 
@@ -19,25 +19,43 @@ let updatePets = function() {
 
 updatePets();
 
-
-
 app.use(bodyParser(bodyParser.json()));
 app.use(bodyParser.urlencoded({
   extended: true
 }));
 
 app.get('/pets', function(req, res) {
-  res.send(JSON.stringify(pets));
+  res.send(pets);
 });
 
 app.get('/pets/:id', function(req, res) {
   let id = req.params.id;
-  let pet = pets[id];
-  res.send(JSON.stringify(pet));
+  if (id >= 0 && id < pets.length) {
+    let pet = pets[id];
+    res.send(pet);
+  } else {
+    console.log('got to error');
+    res.setHeader('Content-Type', 'text/plain');
+    res.statusCode = 404;
+    res.end('Not Found');
+  }
+});
+
+app.post('/', function(req, res) {
+  res.setHeader('Content-Type', 'text/plain');
+  res.statusCode = 404;
+  res.end('Not Found');
+});
+
+app.get('/', function(req, res) {
+  res.setHeader('Content-Type', 'text/plain');
+  res.statusCode = 404;
+  res.end('Not Found');
 });
 
 app.post('/pets', function(req, res) {
   if (req.body.age && req.body.name && req.body.kind) {
+
     let pet = {};
     pet.age = parseInt(req.body.age);
     pet.kind = req.body.kind;
@@ -50,12 +68,23 @@ app.post('/pets', function(req, res) {
     updateFile.then(() => {
       updatePets();
     });
-    res.send(JSON.stringify(pet));
+    res.send(pet);
+
   } else {
-    res.send('error');
+    res.setHeader('Content-Type', 'text/plain');
+    res.statusCode = 400;
+    res.end('Not Found');
   }
 })
+
+app.use(function(req, res) {
+  res.setHeader('Content-Type', 'text/plain');
+  res.statusCode = 404;
+  res.end('Not Found');
+});
 
 app.listen(port, function() {
   console.log('Listening on port', port);
 });
+
+module.exports = app
