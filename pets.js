@@ -21,7 +21,6 @@ var fs = require('fs');
       fs.readFile('./pets.json', (err, data) => {
         if (err) throw err;
         data = JSON.parse(data);
-
         if (recordIndex) {
           if ((recordIndex >= 0) && (recordIndex <= data.length)) {
             let record = data[recordIndex];

@@ -45,6 +45,7 @@ const server = http.createServer(function(req, res) {
         body += data;
       });
       req.on('end', function() {
+
         body = JSON.parse(body);
         if (body.age && body.name && body.kind) {
           myData.push(body);
@@ -61,6 +62,7 @@ const server = http.createServer(function(req, res) {
         }
       });
     } else {
+
       res.statusCode = 400;
       res.end('Not Found');
     }
