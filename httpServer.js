@@ -45,14 +45,24 @@ const server = http.createServer(function(req, res) {
         body += data;
       });
       req.on('end', function() {
-        myData.push(JSON.parse(body));
-        myData = JSON.stringify(myData);
-        fs.writeFile(pets, myData, function() {});
-        res.setHeader('Content-Type', 'application/json');
-        res.end(body);
+
+        body = JSON.parse(body);
+        if (body.age && body.name && body.kind) {
+          myData.push(body);
+          myData = JSON.stringify(myData);
+          console.log(pets, 'pets');
+          console.log(myData, 'myData');
+          fs.writeFile(pets, myData, function() {});
+          res.setHeader('Content-Type', 'application/json');
+          console.log(JSON.stringify(body), 'body');
+          res.end(JSON.stringify(body));
+        } else {
+          res.statusCode = 400;
+          res.end('Bad Request');
+        }
       });
     } else {
-      res.setHeader('Content-Type', 'application/json');
+
       res.statusCode = 400;
       res.end('Not Found');
     }
