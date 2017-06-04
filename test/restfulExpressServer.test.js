@@ -1,6 +1,10 @@
 const request = require('supertest');
 const mockFS = require('mock-fs');
 
+/*UPDATED 2nd PATCH and both DELETE tests to reflect JSON data at that point
+Seems each test was modifying data while expecting data to remain the same
+*/
+
 // Set the port to a different number so that it does not conflict with the
 // other test files.
 process.env.PORT = 3005;
