@@ -1,7 +1,9 @@
-
-
 const request = require('supertest');
 const mockFS = require('mock-fs');
+
+/*UPDATED 2nd PATCH and both DELETE tests to reflect JSON data at that point
+Seems each test was modifying data while expecting data to remain the same
+*/
 
 // Set the port to a different number so that it does not conflict with the
 // other test files.
@@ -165,8 +167,8 @@ describe('pets restfulExpressServer', () => {
         .expect('Content-type', /json/)
         .expect(200, {
           age: 3,
-          kind: 'duck',
-          name: 'Bob',
+          kind: 'owl',
+          name: 'Hugo',
         }, (err, _res) => {
           if (err) {
             return done(err);
@@ -178,8 +180,8 @@ describe('pets restfulExpressServer', () => {
             .expect('Content-Type', /json/)
             .expect(200, {
               age: 3,
-              kind: 'duck',
-              name: 'Bob',
+              kind: 'owl',
+              name: 'Hugo',
             }, done);
         });
     });
@@ -192,16 +194,16 @@ describe('pets restfulExpressServer', () => {
         .set('Authorization', 'Basic YWRtaW46bWVvd21peA==')
         .expect('Content-type', /json/)
         .expect(200, {
-          age: 4,
-          kind: 'duck',
-          name: 'Bob',
+          age: 3,
+          kind: 'owl',
+          name: 'Hugo',
         }, (err, _res) => {
           if (err) {
             return done(err);
           }
 
           request(app)
-            .get('/pets/1')
+            .get('/pets/4')
             .set('Authorization', 'Basic YWRtaW46bWVvd21peA==')
             .expect('Content-Type', /text\/plain/)
             .expect(404, 'Not Found', done);
