@@ -6,4 +6,8 @@
   "age": 5,
   "kind": "snake",
   "name": "Buttons"
+}, {
+  "age": 3,
+  "kind": "parakeet",
+  "name": "Zabumafu"
 }]
