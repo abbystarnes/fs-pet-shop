@@ -54,7 +54,6 @@ app.delete('/pets/:id', function(req, res) {
     });
     res.send(pet);
   } else {
-    console.log('got to error');
     res.setHeader('Content-Type', 'text/plain');
     res.statusCode = 404;
     res.end('Not Found');
@@ -80,7 +79,6 @@ app.post('/pets', function(req, res) {
     pet.age = parseInt(req.body.age);
     pet.kind = req.body.kind;
     pet.name = req.body.name;
-    console.log(pet);
     pets.push(pet);
     let updateFile = new Promise(function(resolve, reject) {
       fs.writeFile(petsFile, JSON.stringify(pets), 'utf8');
@@ -93,60 +91,90 @@ app.post('/pets', function(req, res) {
   } else {
     res.setHeader('Content-Type', 'text/plain');
     res.statusCode = 400;
-    res.end('Not Found');
+    res.end('Bad Request');
   }
 })
 
 app.patch('/pets/:id', function(req, res) {
-  console.log('ran patch');
-  let id = req.params.id;
-  if (id >= 0 && id < pets.length) {
-    let pet = pets[id];
-
-    if (req.body.age) {
-      pet.age = req.body.age;
-      pets[id] = pet;
-      let updateFile = new Promise(function(resolve, reject) {
-        fs.writeFile(petsFile, JSON.stringify(pets), 'utf8');
-      });
-      updateFile.then(() => {
-        updatePets();
-      });
-      return res.send(pet);
-    } else if (req.body.name) {
-      console.log('got here');
-      pet.name = req.body.name;
-      pets[id] = pet;
-      let updateFile = new Promise(function(resolve, reject) {
-        fs.writeFile(petsFile, JSON.stringify(pets), 'utf8');
-      });
-      updateFile.then(() => {
-        updatePets();
-      });
-      return res.send(pet);
-    } else if (req.body.kind) {
-      pet.kind = pet.body.kind;
-      pets[id] = pet;
-      let updateFile = new Promise(function(resolve, reject) {
-        fs.writeFile(petsFile, JSON.stringify(pets), 'utf8');
-      });
-      updateFile.then(() => {
-        updatePets();
-      });
-      return res.send(pet);
-    } else {
+  if ((Number.isInteger(parseInt(req.body.age))) || req.body.name || req.body.kind) {
+    // console.log('ran patch');
+    let id = req.params.id;
+    if (!req.body.age && !req.body.name && !req.body.kind) {
+      // console.log('got to error');
       res.setHeader('Content-Type', 'text/plain');
-      res.statusCode = 400;
+      res.statusCode = 404;
       res.end('Not Found');
-    }
+    } else {
 
+      if (id >= 0 && id < pets.length) {
+        let pet = pets[id];
+        if (req.body.age) {
+          pet.age = req.body.age;
+        }
+
+        if (req.body.name) {
+          // console.log('got here');
+          pet.name = req.body.name;
+        }
+
+        if (req.body.kind) {
+          pet.kind = req.body.kind;
+        }
+
+        pets[id] = pet;
+        let updateFile = new Promise(function(resolve, reject) {
+          fs.writeFile(petsFile, JSON.stringify(pets), 'utf8');
+        });
+        updateFile.then(() => {
+          updatePets();
+        });
+        return res.send(pet);
+      } else {
+        // console.log('got to error');
+        res.setHeader('Content-Type', 'text/plain');
+        res.statusCode = 404;
+        res.end('Not Found');
+      }
+    }
   } else {
-    console.log('got to error');
     res.setHeader('Content-Type', 'text/plain');
     res.statusCode = 404;
     res.end('Not Found');
   }
 
+})
+
+app.put('/pets/:id', function(req, res) {
+  // console.log('ran patch');
+  let id = req.params.id;
+  if (req.body.age && req.body.name && req.body.kind) {
+    if (id >= 0 && id < pets.length) {
+      let pet = {};
+      pet.name = req.body.name;
+      pet.age = req.body.age;
+      pet.kind = req.body.kind;
+      pets[id] = pet;
+      let updateFile = new Promise(function(resolve, reject) {
+        fs.writeFile(petsFile, JSON.stringify(pets), 'utf8');
+      });
+      updateFile.then(() => {
+        updatePets();
+      });
+      return res.send(pet);
+
+
+    } else {
+      // console.log('got to error');
+      res.setHeader('Content-Type', 'text/plain');
+      res.statusCode = 404;
+      res.end('Not Found');
+    }
+  } else {
+    // console.log('got to error');
+    res.setHeader('Content-Type', 'text/plain');
+    res.statusCode = 404;
+    res.end('Not Found');
+  }
 
 })
 
